@@ -6,13 +6,13 @@ import "./Header.css";
 
 const Header = () => {
   return (
-    <Container>
+    <Container className="text-center">
       <Row className="header-row">
         <Col md={2}>
           <Image src={icon} />
         </Col>
         <Col md={8}>
-          <h1 className="header-title">WALLATROLL</h1>
+          <h1 className="header-title ">WALLATROLL</h1>
         </Col>
         <Col md={2}>LOGIN</Col>
       </Row>

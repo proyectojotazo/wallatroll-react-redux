@@ -1,13 +1,10 @@
-import "./App.css";
 import { LoginPage, Layout } from "./components";
 
 function App() {
   return (
-    <div className="App">
-      <Layout>
-        <LoginPage />
-      </Layout>
-    </div>
+    <Layout>
+      <LoginPage />
+    </Layout>
   );
 }
 

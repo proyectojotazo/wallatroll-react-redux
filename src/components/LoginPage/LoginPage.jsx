@@ -62,7 +62,7 @@ const LoginPage = () => {
   return (
     <Container>
       <Row>
-        <Col md={{ span: 4, offset: 4 }} > 
+        <Col md={{ span: 4, offset: 4 }}>
           <Form className="login-page-form" onSubmit={handleSubmit} noValidate>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email</Form.Label>
@@ -72,11 +72,10 @@ const LoginPage = () => {
                 value={formValues.email}
                 onChange={handleChange}
               />
-              <Form.Text className="text-muted">
+              <Form.Text className="text-muted text-center d-block">
                 We'll never share your email with anyone else.
               </Form.Text>
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
@@ -86,7 +85,10 @@ const LoginPage = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+            <Form.Group
+              className="mb-3 text-center"
+              controlId="formBasicCheckbox"
+            >
               <Form.Check
                 type="checkbox"
                 label="Check me out"
@@ -95,7 +97,7 @@ const LoginPage = () => {
               />
             </Form.Group>
             {showErr.show && <ErrorMsg msg={showErr.msg} />}
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="d-block mx-auto">
               Submit
             </Button>
           </Form>

@@ -5,6 +5,7 @@
 
 .header-row{
   align-items: center;
+  border-bottom: 5px solid #16c9b4;
 }
 
 .header-title {

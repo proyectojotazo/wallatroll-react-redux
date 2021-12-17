@@ -1,0 +1,9 @@
+@font-face {
+  font-family: Montserrat-Regular;
+  src: url(../../assets/fonts/Montserrat-SemiBold.ttf);
+}
+
+.login-page-form {
+  font-family: Montserrat-Regular, Impact, Haettenschweiler, "Arial Narrow Bold",
+    sans-serif;
+}

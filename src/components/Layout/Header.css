@@ -3,6 +3,11 @@
   src: url(../../assets/fonts/Montserrat-ExtraBoldItalic.ttf);
 }
 
+@font-face {
+  font-family: Montserrat-Regular;
+  src: url(../../assets/fonts/Montserrat-SemiBold.ttf);
+}
+
 .header-row{
   align-items: center;
   border-bottom: 5px solid #16c9b4;
@@ -20,4 +25,14 @@
     0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2),
     0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
     0 20px 20px rgba(0, 0, 0, 0.15), 13px 13px 9px rgba(22, 201, 180, 0);
+}
+
+.header-navbar{
+  flex-direction: column;
+}
+
+.navbar-link-item{
+  text-decoration: none;
+  font-family: Montserrat-Regular, Impact, Haettenschweiler,
+  'Arial Narrow Bold', sans-serif;;
 }

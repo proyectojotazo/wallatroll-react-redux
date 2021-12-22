@@ -12,3 +12,11 @@
    - Tras la creación del anuncio debería redireccionar a la página del 
      anuncio.
  */
+
+import React from "react";
+
+const NewAdvertPage = () => {
+  return <div>New Advert Page</div>;
+};
+
+export default NewAdvertPage;

@@ -2,9 +2,9 @@ import React from "react";
 
 import { Alert } from "react-bootstrap";
 
-const ErrorMsg = ({ msg }) => {
+const ErrorMsg = ({ msg, onClick }) => {
   return (
-    <Alert variant="danger" className="text-center">
+    <Alert onClick={onClick} variant="danger" className="text-center">
       {msg}
     </Alert>
   );

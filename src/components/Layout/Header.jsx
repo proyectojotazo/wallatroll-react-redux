@@ -1,10 +1,17 @@
 import React from "react";
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { Container, Row, Col, Image, Navbar } from "react-bootstrap";
+
+import { getIsLogged } from "../../store/selectors";
+import { authLogout } from "../../store/actions";
+
 import icon from "../../assets/images/wallaicon-res.png";
 
 import "./Header.css";
 
-const Header = () => {
+const Header = ({ isLogged, onLogout }) => {
   return (
     <Container className="text-center">
       <Row className="header-row">
@@ -14,10 +21,49 @@ const Header = () => {
         <Col md={8}>
           <h1 className="header-title ">WALLATROLL</h1>
         </Col>
-        <Col md={2}>LOGIN</Col>
+        <Col md={2}>
+          <Navbar expand="lg" className="header-navbar">
+            <Link to="/" className="navbar-link-item">
+              Home
+            </Link>
+            {isLogged ? (
+              <>
+                <Link to="/adverts/new" className="navbar-link-item">
+                  Create Ad
+                </Link>
+                <Link onClick={onLogout} to="/" className="navbar-link-item">
+                  Logout
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="navbar-link-item">
+                  Login
+                </Link>
+                <Link to="/register" className="navbar-link-item">
+                  Register
+                </Link>
+              </>
+            )}
+          </Navbar>
+        </Col>
       </Row>
     </Container>
   );
 };
 
-export default Header;
+const mapStateProps = (state) => {
+  return {
+    isLogged: getIsLogged(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogout: () => dispatch(authLogout()),
+  };
+};
+
+const ConnectedHeader = connect(mapStateProps, mapDispatchToProps)(Header);
+
+export default ConnectedHeader;

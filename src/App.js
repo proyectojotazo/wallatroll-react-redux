@@ -1,10 +1,11 @@
-import { LoginPage, Layout } from "./components";
+import { Provider } from "react-redux";
+import { AppRouter } from "./components";
 
-function App() {
+const App = ({ store, history }) => {
   return (
-    <Layout>
-      <LoginPage />
-    </Layout>
+    <Provider store={store}>
+      <AppRouter history={history} />
+    </Provider>
   );
 }
 

@@ -7,3 +7,11 @@
      jugando con el estado de React). Tras el borrado debería redireccionar 
      al listado de anuncios
  */
+
+import React from "react";
+
+const AdvertPage = () => {
+  return <div>Advert Page</div>;
+};
+
+export default AdvertPage;

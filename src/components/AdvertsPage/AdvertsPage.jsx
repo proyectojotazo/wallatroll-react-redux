@@ -32,3 +32,16 @@
      preferencias deberían permanecer guardadas aunque cerremos 
      el navegador.
  */
+
+     import React from 'react'
+     
+     const AdvertsPage = () => {
+       return (
+         <div>
+           AdvertsPage
+         </div>
+       )
+     }
+     
+     export default AdvertsPage
+     

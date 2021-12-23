@@ -21,7 +21,8 @@ const userServices = {
     await Promise.resolve()
     removeAuthorizationHeader()
     storage.remove('token')
-  }
+  },
+  register: async (data) => await requestServices.post('/api/auth/signup', data)
 }
 
 export default userServices

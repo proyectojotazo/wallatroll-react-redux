@@ -2,8 +2,12 @@ import {
   AUTH_LOGIN_FAILURE,
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
+  LOGIN_UI_RESET_ERROR,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
+  REGISTER_UI_RESET_ERROR,
   AUTH_LOGOUT,
-  UI_RESET_ERROR,
 } from "./types";
 
 import handleError from "../utils/errorHandler";
@@ -27,6 +31,25 @@ export const authLoginFailure = (error) => {
     payload: error.message
   };
 };
+export const registerRequest = () => {
+  return {
+    type: REGISTER_REQUEST,
+  };
+};
+
+export const registerSuccess = () => {
+  return {
+    type: REGISTER_SUCCESS,
+  };
+};
+
+export const registerFailure = (error) => {
+  return {
+    type: REGISTER_FAILURE,
+    error: true,
+    payload: error.message
+  };
+};
 
 export const authLogoutRequest = () => {
   return {
@@ -34,11 +57,18 @@ export const authLogoutRequest = () => {
   };
 };
 
-export const uiResetError = () => {
+export const loginUiResetError = () => {
   return {
-    type: UI_RESET_ERROR,
+    type: LOGIN_UI_RESET_ERROR,
   };
 };
+
+export const registerUiResetError = () => {
+  return {
+    type: REGISTER_UI_RESET_ERROR,
+  };
+};
+
 
 export const authLogin = (credentials) => {
   return async (dispatch, getState, { api, history }) => {
@@ -61,6 +91,20 @@ export const authLogout = () => {
       await api.userServices.logout()
     } catch(error){
       console.error(error)
+    }
+  }
+}
+
+export const register = credentials => {
+  return async (dispatch, getState, { api, history }) => {
+    dispatch(registerRequest())
+    try {
+      await api.userServices.register(credentials)
+      dispatch(registerSuccess())
+      history.replace('/login')
+    } catch (error) {
+      console.log(error)
+      dispatch(registerFailure(handleError(error)))
     }
   }
 }

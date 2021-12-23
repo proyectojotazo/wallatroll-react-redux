@@ -7,8 +7,8 @@ import ErrorMsg from "../common/ErrorMsg";
 
 import "./LoginPage.css";
 
-import { authLogin, uiResetError } from "../../store/actions";
-import { getUi } from "../../store/selectors";
+import { authLogin, loginUiResetError } from "../../store/actions";
+import { getLoginUi } from "../../store/selectors";
 
 const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
   const [formValues, setFormValues] = useState({
@@ -109,13 +109,13 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
 };
 
 const mapStateToProps = (state) => {
-  return getUi(state);
+  return getLoginUi(state);
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: (credentials) => dispatch(authLogin(credentials)),
-    onResetError: () => dispatch(uiResetError()),
+    onResetError: () => dispatch(loginUiResetError()),
   };
 };
 

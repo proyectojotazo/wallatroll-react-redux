@@ -103,7 +103,6 @@ export const register = credentials => {
       dispatch(registerSuccess())
       history.replace('/login')
     } catch (error) {
-      console.log(error)
       dispatch(registerFailure(handleError(error)))
     }
   }

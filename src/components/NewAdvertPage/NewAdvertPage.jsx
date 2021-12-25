@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
 
 import adsServices from "../../api/adsServices";
 
 const TAGS = ["lifestyle", "mobile", "motor", "work"];
 
-const NewAdvertPage = () => {
-  const history = useHistory();
-
+const NewAdvertPage = ({ history }) => {
   const [formValues, setFormValues] = useState({
     name: "",
     sale: "true",

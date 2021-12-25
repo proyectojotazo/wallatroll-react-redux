@@ -8,8 +8,6 @@
      al listado de anuncios
  */
 
-import React from "react";
-
 const AdvertPage = () => {
   return <div>Advert Page</div>;
 };

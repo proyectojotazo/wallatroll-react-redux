@@ -1,11 +1,6 @@
 /**
- * - Listado de anuncios. Cada anuncio presentará nombre, precio, si es 
-     compra o venta y los tags. No es necesario mostrar la foto en este 
-     listado.
-   - Manejará el estado cuando no haya ningún anuncio de mostrar, con un
+ * - Manejará el estado cuando no haya ningún anuncio de mostrar, con un
      enlace a la página de creación de anuncios.
-   - Cada anuncio del listado tendrá un enlace al detalle del anuncio (ruta
-     /adverts/:id).
    - Zona de filtros: Formulario con distintos inputs, donde podremos 
      introducir los filtros que queremos aplicar sobre el listado.
       - Filtro por nombre (input tipo texto)
@@ -32,9 +27,49 @@
      preferencias deberían permanecer guardadas aunque cerremos 
      el navegador.
  */
+import { useState, useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-const AdvertsPage = () => {
-  return <div>AdvertsPage</div>;
+import AdvertCard from "./AdvertCard";
+
+import adsServices from "../../api/adsServices";
+
+const AdvertsPage = ({ history }) => {
+  const [ads, setAds] = useState([]);
+
+  useEffect(() => {
+    // Dispatch Async?
+    const getAds = async () => {
+      const ads = await adsServices.getAds();
+      return ads;
+    };
+    getAds()
+      .then((ads) => setAds(ads))
+      .catch((err) => console.error(err));
+  }, []);
+
+  return ads.length === 0 ? (
+    <Container className="mx-auto w-50 align-center">
+      <h1 className="text-center">No hay anuncios</h1>
+      <Link
+        to="/adverts/new"
+        className="d-block text-center text-decoration-none"
+      >
+        Create Ad
+      </Link>
+    </Container>
+  ) : (
+    <Container>
+      <Row xs={1} sm={2} md={3} lg={5} className="justify-content-center">
+        {ads.map((ad) => (
+          <Col key={ad.id}>
+            <AdvertCard history={history} key={ad.id} ad={ad} />
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
 };
 
 export default AdvertsPage;

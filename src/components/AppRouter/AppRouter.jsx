@@ -1,9 +1,4 @@
-import {
-  Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 import ConnectedPrivateRoute from "./PrivateRoute";
 
@@ -22,15 +17,27 @@ const AppRouter = ({ history }) => {
     <Router history={history}>
       <Layout>
         <Switch>
-          <ConnectedPrivateRoute exact path="/adverts" component={AdvertsPage} />
-          <ConnectedPrivateRoute exact path="/adverts/new" component={NewAdvertPage} />
-          <ConnectedPrivateRoute exact path="/advert/:id" component={AdvertPage} />
+          <ConnectedPrivateRoute
+            exact
+            path="/adverts"
+            component={AdvertsPage}
+          />
+          <ConnectedPrivateRoute
+            exact
+            path="/adverts/new"
+            component={NewAdvertPage}
+          />
+          <ConnectedPrivateRoute
+            exact
+            path="/advert/:id"
+            component={AdvertPage}
+          />
           <Route exact path="/login" component={ConnectedLoginPage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/">
             <Redirect to="/adverts" />
           </Route>
-          <Route path="*" component={NotFoundPage} />
+          <Route path="/404" component={NotFoundPage} />
         </Switch>
       </Layout>
     </Router>

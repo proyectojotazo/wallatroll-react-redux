@@ -3,7 +3,14 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 
 import adsServices from "../../api/adsServices";
 
+// TODO: Get tags from api?
 const TAGS = ["lifestyle", "mobile", "motor", "work"];
+
+const parseTags = (data, tags) => {
+  const tagIncluded = data.get("tags"); // Obtenemos el tag que ha sido incluido en el FormData
+  const tagsToAppend = tags.filter((tag) => tag !== tagIncluded); // Obtenemos de los tags del estado los tags que no sean el tag ya incluido
+  data.append("tags", tagsToAppend); // Añadimos los tags restantes al FormData
+};
 
 const NewAdvertPage = ({ history }) => {
   const [formValues, setFormValues] = useState({
@@ -27,7 +34,14 @@ const NewAdvertPage = ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    await adsServices.createAd(data, history);
+
+    parseTags(data, formValues.tags);
+
+    try {
+      await adsServices.createAd(data, history);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const addTag = () => {

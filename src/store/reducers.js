@@ -8,10 +8,12 @@ import {
   REGISTER_FAILURE,
   REGISTER_UI_RESET_ERROR,
   AUTH_LOGOUT,
+  ADVERTS_LOADED
 } from "./types";
 
 const defaultState = {
   auth: true,
+  ads: [],
   loginUi: {
     isLoading: false,
     error: { msg: "", show: false },
@@ -107,3 +109,12 @@ export const registerUi = (
       return registerUiState;
   }
 };
+
+export const adverts = (advertsState = defaultState.ads, action ) => {
+  switch (action.type) {
+    case ADVERTS_LOADED:
+      return { ads: action.payload } 
+    default:
+      return advertsState
+  }
+}

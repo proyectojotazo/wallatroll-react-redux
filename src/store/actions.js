@@ -8,6 +8,7 @@ import {
   REGISTER_FAILURE,
   REGISTER_UI_RESET_ERROR,
   AUTH_LOGOUT,
+  ADVERTS_LOADED,
 } from "./types";
 
 import handleError from "../utils/errorHandler";
@@ -28,7 +29,7 @@ export const authLoginFailure = (error) => {
   return {
     type: AUTH_LOGIN_FAILURE,
     error: true,
-    payload: error.message
+    payload: error.message,
   };
 };
 export const registerRequest = () => {
@@ -47,7 +48,7 @@ export const registerFailure = (error) => {
   return {
     type: REGISTER_FAILURE,
     error: true,
-    payload: error.message
+    payload: error.message,
   };
 };
 
@@ -69,41 +70,47 @@ export const registerUiResetError = () => {
   };
 };
 
+export const advertsLoaded = (adverts) => {
+  return {
+    type: ADVERTS_LOADED,
+    payload: adverts,
+  };
+};
 
 export const authLogin = (credentials) => {
   return async (dispatch, getState, { api, history }) => {
-    dispatch(authLoginRequest())
+    dispatch(authLoginRequest());
     try {
-      await api.userServices.login(credentials)
-      dispatch(authLoginSuccess())
+      await api.userServices.login(credentials);
+      dispatch(authLoginSuccess());
       const { from } = history.location.state || { from: { pathname: "/" } };
       history.replace(from);
     } catch (error) {
-      dispatch(authLoginFailure(handleError(error)))
+      dispatch(authLoginFailure(handleError(error)));
     }
-  }
-}
+  };
+};
 
 export const authLogout = () => {
   return async (dispatch, getState, { api }) => {
-    dispatch(authLogoutRequest())
+    dispatch(authLogoutRequest());
     try {
-      await api.userServices.logout()
-    } catch(error){
-      console.error(error)
-    }
-  }
-}
-
-export const register = credentials => {
-  return async (dispatch, getState, { api, history }) => {
-    dispatch(registerRequest())
-    try {
-      await api.userServices.register(credentials)
-      dispatch(registerSuccess())
-      history.replace('/login')
+      await api.userServices.logout();
     } catch (error) {
-      dispatch(registerFailure(handleError(error)))
+      console.error(error);
     }
-  }
-}
+  };
+};
+
+export const register = (credentials) => {
+  return async (dispatch, getState, { api, history }) => {
+    dispatch(registerRequest());
+    try {
+      await api.userServices.register(credentials);
+      dispatch(registerSuccess());
+      history.replace("/login");
+    } catch (error) {
+      dispatch(registerFailure(handleError(error)));
+    }
+  };
+};

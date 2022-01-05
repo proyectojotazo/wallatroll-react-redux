@@ -1,18 +1,17 @@
-import { Route, Redirect, useLocation } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getIsLogged } from "../../store/selectors";
 
 const PrivateRoute = ({ isLogged, ...props }) => {
-  const location = useLocation();
-
+  // TODO: Arreglar warning 
   return isLogged ? (
     <Route {...props} />
   ) : (
     <Route>
-      <Redirect
-        to={{ pathname: "/login", state: { from: location } }}
-      />
+      {({ location }) => (
+        <Redirect to={{ pathname: "/login", state: { from: location } }} />
+      )}
     </Route>
   );
 };
@@ -20,9 +19,13 @@ const PrivateRoute = ({ isLogged, ...props }) => {
 const mapStateToProps = (state) => {
   return {
     isLogged: getIsLogged(state),
-  }
+  };
 };
 
 const ConnectedPrivateRoute = connect(mapStateToProps)(PrivateRoute);
 
 export default ConnectedPrivateRoute;
+
+{
+  /*  */
+}

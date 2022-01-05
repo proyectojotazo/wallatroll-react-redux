@@ -1,10 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 
 import adsServices from "../../api/adsServices";
-
-// TODO: Get tags from api?
-const TAGS = ["lifestyle", "mobile", "motor", "work"];
 
 const parseTags = (data, tags) => {
   const tagIncluded = data.get("tags"); // Obtenemos el tag que ha sido incluido en el FormData
@@ -20,6 +17,16 @@ const NewAdvertPage = ({ history }) => {
     price: "",
     photo: null,
   });
+
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    const getTags = async () => {
+      const tags = await adsServices.getTags();
+      setTags(tags);
+    };
+    getTags();
+  }, []);
 
   const [tagSelected, setTagSelected] = useState("lifestyle");
 
@@ -37,11 +44,7 @@ const NewAdvertPage = ({ history }) => {
 
     parseTags(data, formValues.tags);
 
-    try {
-      await adsServices.createAd(data, history);
-    } catch (err) {
-      console.error(err);
-    }
+    await adsServices.createAd(data, history);
   };
 
   const addTag = () => {
@@ -127,7 +130,7 @@ const NewAdvertPage = ({ history }) => {
               id="formBasicTags"
               onChange={handleTag}
             >
-              {TAGS.map((tag, i) => (
+              {tags.map((tag, i) => (
                 <option value={tag} key={i}>
                   {tag}
                 </option>

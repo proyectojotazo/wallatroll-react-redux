@@ -2,16 +2,16 @@ import {
   AUTH_LOGIN_FAILURE,
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
-  LOGIN_UI_RESET_ERROR,
+  UI_RESET_ERROR,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
-  REGISTER_UI_RESET_ERROR,
   AUTH_LOGOUT,
   ADVERTS_LOADED,
 } from "./types";
 
 import handleError from "../utils/errorHandler";
+import customAlerts from "./../utils/customAlerts";
 
 export const authLoginRequest = () => {
   return {
@@ -58,15 +58,9 @@ export const authLogoutRequest = () => {
   };
 };
 
-export const loginUiResetError = () => {
+export const uiResetError = () => {
   return {
-    type: LOGIN_UI_RESET_ERROR,
-  };
-};
-
-export const registerUiResetError = () => {
-  return {
-    type: REGISTER_UI_RESET_ERROR,
+    type: UI_RESET_ERROR,
   };
 };
 
@@ -82,22 +76,30 @@ export const authLogin = (credentials) => {
     dispatch(authLoginRequest());
     try {
       await api.userServices.login(credentials);
+      await customAlerts.successLogin();
       dispatch(authLoginSuccess());
       const { from } = history.location.state || { from: { pathname: "/" } };
       history.replace(from);
     } catch (error) {
+      // const { message } = handleError(error);
+      // await customAlerts.error(message);
       dispatch(authLoginFailure(handleError(error)));
     }
   };
 };
 
 export const authLogout = () => {
-  return async (dispatch, getState, { api }) => {
-    dispatch(authLogoutRequest());
-    try {
-      await api.userServices.logout();
-    } catch (error) {
-      console.error(error);
+  return async (dispatch, getState, { api, history }) => {
+    const result = await customAlerts.askLogout();
+    if (result.isConfirmed) {
+      await customAlerts.successLogout();
+      dispatch(authLogoutRequest());
+      history.replace("/login");
+      try {
+        await api.userServices.logout();
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 };
@@ -108,6 +110,7 @@ export const register = (credentials) => {
     try {
       await api.userServices.register(credentials);
       dispatch(registerSuccess());
+      await customAlerts.successRegister();
       history.replace("/login");
     } catch (error) {
       dispatch(registerFailure(handleError(error)));

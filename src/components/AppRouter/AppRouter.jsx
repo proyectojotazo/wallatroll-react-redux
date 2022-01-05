@@ -38,6 +38,9 @@ const AppRouter = ({ history }) => {
             <Redirect to="/adverts" />
           </Route>
           <Route path="/404" component={NotFoundPage} />
+          <Route>
+            <Redirect to="/404" />
+          </Route>
         </Switch>
       </Layout>
     </Router>

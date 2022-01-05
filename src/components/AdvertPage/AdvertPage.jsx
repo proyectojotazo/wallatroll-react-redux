@@ -1,43 +1,23 @@
-/**
- * - Detalle del anuncio cuyo id es recogido de la URL. Mostrará la foto del 
-     anuncio o un placeholder en su lugar si no existe foto.
-   - Si el anuncio no existe deberia redirigirnos al NotFoundPage.
-   - Botón para poder borrar el anuncio. Antes de borrar mostar una 
-     confirmación al usuario (algo más elaborado que un window.confirm, 
-     jugando con el estado de React). Tras el borrado debería redireccionar 
-     al listado de anuncios
- */
 import { useState, useEffect } from "react";
 import { Card, Button, ListGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
-import CustomModal from "../common/CustomModal";
-
 import adsServices from "../../api/adsServices";
 
-const getAd = async (id) => await adsServices.getAd(id);
-
 const AdvertPage = ({ history }) => {
+  // TODO: Mostrar un cargando mientras se carga el anuncio
   const { id } = useParams();
   const [ad, setAd] = useState([]);
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    console.log(id)
-    getAd(id)
-      .then((ad) => setAd(ad))
-      .catch((err) => console.error(err));
-  }, [id]);
+    adsServices
+      .getAd(id)
+      .then(setAd)
+      .catch((error) => history.replace("/404"));
+  }, [id, history]);
 
   const deleteAd = async () => {
-    try {
-      await adsServices.deleteAd(id);
-      // TODO: Mostrar modal de anuncio borrado?
-      history.replace("/adverts");
-    } catch (error) {
-      // TODO: Manejar error si anuncio ya borrado
-      console.error(error);
-    }
+    await adsServices.deleteAd(id, history);
   };
 
   const img = ad.photo
@@ -46,15 +26,6 @@ const AdvertPage = ({ history }) => {
 
   return (
     <>
-      {showModal && (
-        <CustomModal
-          show={showModal}
-          title={`Delete ${ad.name}`}
-          body="Are you sure?"
-          closeModal={() => setShowModal(false)}
-          action={deleteAd}
-        />
-      )}
       <Card className="text-center mx-auto p-0" style={{ width: "40%" }}>
         <Card.Img
           variant="top"
@@ -79,11 +50,7 @@ const AdvertPage = ({ history }) => {
                 <ListGroup.Item key={i}>{tag}</ListGroup.Item>
               ))}
           </ListGroup>
-          <Button
-            variant="danger"
-            onClick={() => setShowModal(true)}
-            style={{ width: "50%" }}
-          >
+          <Button variant="danger" onClick={deleteAd} style={{ width: "50%" }}>
             Delete
           </Button>
         </Card.Body>

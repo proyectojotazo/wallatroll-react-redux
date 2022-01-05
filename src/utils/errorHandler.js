@@ -1,27 +1,20 @@
 const handleRegisterErrors = (error) => {
+  const types = ["email", "password", "name", "username"];
+
   const handledErrors = {};
 
-  error.message.forEach((msg) => {
-    if (msg.includes("email")) {
-      handledErrors["email"] = msg;
-    }
-    if (msg.includes("password")) {
-      handledErrors["password"] = msg;
-    }
-    // Sin !msg.includes... se introduce el error de username
-    if (msg.includes("name") && !msg.includes("username")) {
-      handledErrors["name"] = msg;
-    }
-    if (msg.includes("username")) {
-      handledErrors["username"] = msg;
-    }
+  error.message.forEach((err) => {
+    types.forEach((type) => {
+      const re = new RegExp(`^${type}`, "g");
+      if (re.test(err)) handledErrors[type] = err;
+    });
   });
 
   return handledErrors;
 };
 
 const handleError = (error) => {
-  const handledError = { message: "" };
+  let handledError = {};
 
   // Si se introduce un usuario incorrecto
   if (error.status === 401) {
@@ -30,12 +23,16 @@ const handleError = (error) => {
 
   // Valores no validos en el formulario de registro
   if (error.status === 400) {
-    handledError["message"] = handleRegisterErrors(error);;
+    handledError["message"] = handleRegisterErrors(error);
+  }
+
+  if (error.status === 500 && error.message === "Internal server error") {
+    handledError["message"] = "Username or Email is already in use";
   }
 
   // Si el servidor no está corriendo
   if (error.message === "Network Error") {
-    handledError["message"] = "Could not connect to the server";
+    handledError["message"] = { server: "Could not connect to the server" };
   }
 
   return handledError;

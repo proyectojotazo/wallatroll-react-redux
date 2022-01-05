@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 
@@ -6,28 +5,21 @@ import ErrorMsg from "../common/ErrorMsg";
 
 import "./LoginPage.css";
 
-import { authLogin, loginUiResetError } from "../../store/actions";
-import { getLoginUi } from "../../store/selectors";
+import { authLogin, uiResetError } from "../../store/actions";
+import { getUi } from "../../store/selectors";
+import { useForm } from './../../hooks/useForm';
 
 const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
-  const [formValues, setFormValues] = useState({
+  const [formValues, handleChange] = useForm({
     email: "",
     password: "",
     checkbox: false,
   });
 
-  const handleChange = (e) => {
-    setFormValues({
-      ...formValues,
-      [e.target.type]:
-        e.target.type !== "checkbox" ? e.target.value : e.target.checked,
-    });
-  };
+  const { email, password, checkbox: remember } = formValues;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const { email, password, checkbox: remember } = formValues;
 
     const userToLog = {
       email,
@@ -47,8 +39,9 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
+                name="email"
                 placeholder="Enter email"
-                value={formValues.email}
+                value={email}
                 onChange={handleChange}
                 disabled={isLoading}
               />
@@ -60,8 +53,9 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
+                name="password"
                 placeholder="Password"
-                value={formValues.password}
+                value={password}
                 onChange={handleChange}
                 disabled={isLoading}
               />
@@ -72,13 +66,19 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
             >
               <Form.Check
                 type="checkbox"
+                name="checkbox"
                 label="Remember me"
-                checked={formValues.checkbox}
+                checked={remember}
                 onChange={handleChange}
                 disabled={isLoading}
               />
             </Form.Group>
-            {error.show && <ErrorMsg onClick={onResetError} msg={error.msg} />}
+            {error.show && (
+              <ErrorMsg
+                onClick={onResetError}
+                msg={!!error.msg.server ? error.msg.server : error.msg}
+              />
+            )}
             <Button
               variant="primary"
               type="submit"
@@ -108,13 +108,13 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
 };
 
 const mapStateToProps = (state) => {
-  return getLoginUi(state);
+  return getUi(state);
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: (credentials) => dispatch(authLogin(credentials)),
-    onResetError: () => dispatch(loginUiResetError()),
+    onResetError: () => dispatch(uiResetError()),
   };
 };
 

@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { Container, Row, Col, Image, Navbar } from "react-bootstrap";
 
 import { getIsLogged } from "../../store/selectors";
-import { authLogout } from "../../store/actions";
+import { authLogout, uiResetError } from "../../store/actions";
 
 import icon from "../../assets/images/wallaicon-res.png";
 
 import "./Header.css";
 
-const Header = ({ isLogged, onLogout }) => {
+const Header = ({ isLogged, onLogout, resetErrors }) => {
   return (
     <Container className="text-center">
       <Row className="header-row">
@@ -22,11 +22,11 @@ const Header = ({ isLogged, onLogout }) => {
         </Col>
         <Col md={2}>
           <Navbar expand="lg" className="header-navbar">
-            <Link to="/" className="navbar-link-item">
-              Home
-            </Link>
             {isLogged ? (
               <>
+                <Link to="/" className="navbar-link-item">
+                  Home
+                </Link>
                 <Link to="/adverts/new" className="navbar-link-item">
                   Create Ad
                 </Link>
@@ -36,10 +36,18 @@ const Header = ({ isLogged, onLogout }) => {
               </>
             ) : (
               <>
-                <Link to="/login" className="navbar-link-item">
+                <Link
+                  to="/login"
+                  onClick={resetErrors}
+                  className="navbar-link-item"
+                >
                   Login
                 </Link>
-                <Link to="/register" className="navbar-link-item">
+                <Link
+                  to="/register"
+                  onClick={resetErrors}
+                  className="navbar-link-item"
+                >
                   Register
                 </Link>
               </>
@@ -59,7 +67,11 @@ const mapStateProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogout: () => dispatch(authLogout()),
+    onLogout: (e) => {
+      e.preventDefault();
+      dispatch(authLogout());
+    },
+    resetErrors: () => dispatch(uiResetError()),
   };
 };
 

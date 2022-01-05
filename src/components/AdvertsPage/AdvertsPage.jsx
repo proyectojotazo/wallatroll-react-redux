@@ -1,7 +1,5 @@
 /**
- * - Manejará el estado cuando no haya ningún anuncio de mostrar, con un
-     enlace a la página de creación de anuncios.
-   - Zona de filtros: Formulario con distintos inputs, donde podremos 
+ * - Zona de filtros: Formulario con distintos inputs, donde podremos 
      introducir los filtros que queremos aplicar sobre el listado.
       - Filtro por nombre (input tipo texto)
       - Filtro compra/venta (input tipo radio ‘venta’, ‘compra’, ‘todos’)
@@ -27,27 +25,17 @@
      preferencias deberían permanecer guardadas aunque cerremos 
      el navegador.
  */
-import { useState, useEffect } from "react";
+
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import AdvertCard from "./AdvertCard";
 
-import adsServices from "../../api/adsServices";
+import { useAds } from "./../../hooks/useAds";
 
 const AdvertsPage = ({ history }) => {
-  const [ads, setAds] = useState([]);
-
-  useEffect(() => {
-    // Dispatch Async?
-    const getAds = async () => {
-      const ads = await adsServices.getAds();
-      return ads;
-    };
-    getAds()
-      .then((ads) => setAds(ads))
-      .catch((err) => console.error(err));
-  }, []);
+  // TODO: Mostrar un cargando mientras se cargan los anuncios
+  const ads = useAds();
 
   return ads.length === 0 ? (
     <Container className="mx-auto w-50 align-center">

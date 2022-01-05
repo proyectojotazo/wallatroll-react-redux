@@ -1,4 +1,3 @@
-export const getLoginUi = state => state.loginUi
-export const getRegisterUi = state => state.registerUi
+export const getUi = state => state.ui
 export const getIsLogged = state => state.auth
 export const getAdverts = state => state.ads

@@ -7,6 +7,6 @@ const App = ({ store, history }) => {
       <AppRouter history={history} />
     </Provider>
   );
-}
+};
 
 export default App;

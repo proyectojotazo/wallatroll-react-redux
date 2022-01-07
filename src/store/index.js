@@ -5,8 +5,9 @@ import thunk from "redux-thunk";
 import * as reducers from "./reducers";
 
 import userServices from "../api/userServices";
+import adsServices from "../api/adsServices";
 
-const api = { userServices };
+const api = { userServices, adsServices };
 
 const rootReducers = combineReducers(reducers);
 

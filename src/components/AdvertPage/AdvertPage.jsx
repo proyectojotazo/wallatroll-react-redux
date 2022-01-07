@@ -8,7 +8,7 @@ const AdvertPage = ({ history }) => {
   // TODO: Mostrar un cargando mientras se carga el anuncio
   const { id } = useParams();
   const [ad, setAd] = useState([]);
-
+  
   useEffect(() => {
     adsServices
       .getAd(id)

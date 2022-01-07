@@ -25,19 +25,24 @@
      preferencias deberían permanecer guardadas aunque cerremos 
      el navegador.
  */
+import { useEffect } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import AdvertCard from "./AdvertCard";
 
-import { useAds } from "./../../hooks/useAds";
-
-import { getUi } from "./../../store/selectors";
+import { getUi, getAdverts } from "./../../store/selectors";
+import { getAds } from "./../../store/actions";
 
 const AdvertsPage = ({ history }) => {
   const { isLoading } = useSelector(getUi);
-  const ads = useAds();
+  const ads = useSelector(getAdverts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAds());
+  }, [dispatch]);
 
   if (isLoading) {
     return (

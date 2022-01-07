@@ -66,10 +66,10 @@ export const uiResetError = () => {
 };
 
 export const loadingAdverts = () => {
-  return{
-    type: LOADING_ADVERTS
-  }
-}
+  return {
+    type: LOADING_ADVERTS,
+  };
+};
 
 export const advertsLoaded = (adverts) => {
   return {
@@ -118,6 +118,19 @@ export const register = (credentials) => {
       history.replace("/login");
     } catch (error) {
       dispatch(registerFailure(handleError(error)));
+    }
+  };
+};
+
+export const getAds = () => {
+  return async (dispatch, getState, { api }) => {
+    dispatch(loadingAdverts());
+    try {
+      const ads = await api.adsServices.getAds();
+      dispatch(advertsLoaded(ads));
+    } catch (error) {
+      //TODO: Manejar errores
+      console.error(error);
     }
   };
 };

@@ -13,7 +13,7 @@ import {
 
 const defaultState = {
   auth: true,
-  ads: [],
+  adverts: [],
   ui: {
     isLoading: false,
     error: { msg: "", show: false },
@@ -57,10 +57,10 @@ export const ui = (uiState = defaultState.ui, action) => {
   }
 };
 
-export const adverts = (advertsState = defaultState.ads, action) => {
+export const adverts = (advertsState = defaultState.adverts, action) => {
   switch (action.type) {
     case ADVERTS_LOADED:
-      return { ads: action.payload };
+      return action.payload;
     default:
       return advertsState;
   }

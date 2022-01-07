@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getIsLogged } from "../../store/selectors";
 
 const PrivateRoute = ({ isLogged, ...props }) => {
-  // TODO: Arreglar warning 
+  // TODO: Arreglar warning
   return isLogged ? (
     <Route {...props} />
   ) : (
@@ -25,7 +25,3 @@ const mapStateToProps = (state) => {
 const ConnectedPrivateRoute = connect(mapStateToProps)(PrivateRoute);
 
 export default ConnectedPrivateRoute;
-
-{
-  /*  */
-}

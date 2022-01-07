@@ -25,17 +25,28 @@
      preferencias deberían permanecer guardadas aunque cerremos 
      el navegador.
  */
-
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import AdvertCard from "./AdvertCard";
 
 import { useAds } from "./../../hooks/useAds";
 
+import { getUi } from "./../../store/selectors";
+
 const AdvertsPage = ({ history }) => {
-  // TODO: Mostrar un cargando mientras se cargan los anuncios
+  const { isLoading } = useSelector(getUi);
   const ads = useAds();
+
+  if (isLoading) {
+    return (
+      <Container className="mx-auto w-50 align-center text-center">
+        <h1>Loading resources...</h1>
+        <Spinner animation="border" variant="info" />;
+      </Container>
+    );
+  }
 
   return ads.length === 0 ? (
     <Container className="mx-auto w-50 align-center">

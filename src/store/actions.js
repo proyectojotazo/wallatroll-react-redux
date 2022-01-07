@@ -7,6 +7,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
   AUTH_LOGOUT,
+  LOADING_ADVERTS,
   ADVERTS_LOADED,
 } from "./types";
 
@@ -64,6 +65,12 @@ export const uiResetError = () => {
   };
 };
 
+export const loadingAdverts = () => {
+  return{
+    type: LOADING_ADVERTS
+  }
+}
+
 export const advertsLoaded = (adverts) => {
   return {
     type: ADVERTS_LOADED,
@@ -81,8 +88,6 @@ export const authLogin = (credentials) => {
       const { from } = history.location.state || { from: { pathname: "/" } };
       history.replace(from);
     } catch (error) {
-      // const { message } = handleError(error);
-      // await customAlerts.error(message);
       dispatch(authLoginFailure(handleError(error)));
     }
   };
@@ -94,7 +99,6 @@ export const authLogout = () => {
     if (result.isConfirmed) {
       await customAlerts.successLogout();
       dispatch(authLogoutRequest());
-      history.replace("/login");
       try {
         await api.userServices.logout();
       } catch (error) {

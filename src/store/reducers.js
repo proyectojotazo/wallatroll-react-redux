@@ -7,6 +7,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
   AUTH_LOGOUT,
+  LOADING_ADVERTS,
   ADVERTS_LOADED,
 } from "./types";
 
@@ -44,6 +45,11 @@ export const ui = (uiState = defaultState.ui, action) => {
       return { isLoading: false, error: { msg: "", show: false } };
     case REGISTER_FAILURE:
       return { isLoading: false, error: { msg: action.payload, show: true } };
+    case LOADING_ADVERTS:
+      return { isLoading: true, error: { msg: "", show: false } };
+    case ADVERTS_LOADED:
+      return { isLoading: false, error: { msg: "", show: false } };
+    // Caso errores al cargar anuncios
     case UI_RESET_ERROR:
       return { ...uiState, error: { msg: "", show: false } };
     default:

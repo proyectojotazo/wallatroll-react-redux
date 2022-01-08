@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react";
-import { Card, Button, ListGroup } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import { Card, Button, ListGroup, Container, Spinner } from "react-bootstrap";
+
 import adsServices from "../../api/adsServices";
+import { useAd } from "./../../hooks/useAd";
+import { getUi } from "./../../store/selectors";
 
 const AdvertPage = ({ history }) => {
-  // TODO: Mostrar un cargando mientras se carga el anuncio
+  const { isLoading } = useSelector(getUi);
   const { id } = useParams();
-  const [ad, setAd] = useState([]);
-  
-  useEffect(() => {
-    adsServices
-      .getAd(id)
-      .then(setAd)
-      .catch((error) => history.replace("/404"));
-  }, [id, history]);
+  const ad = useAd(id);
 
   const deleteAd = async () => {
     await adsServices.deleteAd(id, history);
@@ -24,6 +20,14 @@ const AdvertPage = ({ history }) => {
     ? `${process.env.REACT_APP_API_BASE_URL}${ad.photo}`
     : "https://via.placeholder.com/150x100?text=No Image";
 
+  if (isLoading) {
+    return (
+      <Container className="mx-auto w-50 align-center text-center">
+        <h1>Loading advert...</h1>
+        <Spinner animation="border" variant="info" />;
+      </Container>
+    );
+  }
   return (
     <>
       <Card className="text-center mx-auto p-0" style={{ width: "40%" }}>

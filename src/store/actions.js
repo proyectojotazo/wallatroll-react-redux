@@ -9,6 +9,8 @@ import {
   AUTH_LOGOUT,
   LOADING_ADVERTS,
   ADVERTS_LOADED,
+  LOADING_ADVERT,
+  ADVERT_LOADED,
 } from "./types";
 
 import handleError from "../utils/errorHandler";
@@ -75,6 +77,18 @@ export const advertsLoaded = (adverts) => {
   return {
     type: ADVERTS_LOADED,
     payload: adverts,
+  };
+};
+
+export const loadingAdvert = () => {
+  return {
+    type: LOADING_ADVERT,
+  };
+};
+
+export const advertLoaded = () => {
+  return {
+    type: ADVERT_LOADED,
   };
 };
 

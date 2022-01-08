@@ -9,6 +9,8 @@ import {
   AUTH_LOGOUT,
   LOADING_ADVERTS,
   ADVERTS_LOADED,
+  LOADING_ADVERT,
+  ADVERT_LOADED,
 } from "./types";
 
 const defaultState = {
@@ -49,7 +51,11 @@ export const ui = (uiState = defaultState.ui, action) => {
       return { isLoading: true, error: { msg: "", show: false } };
     case ADVERTS_LOADED:
       return { isLoading: false, error: { msg: "", show: false } };
-    // Caso errores al cargar anuncios
+      // Caso errores al cargar anuncios
+    case LOADING_ADVERT:
+      return { isLoading: true, error: { msg: "", show: false } };
+    case ADVERT_LOADED:
+      return { isLoading: false, error: { msg: "", show: false } };
     case UI_RESET_ERROR:
       return { ...uiState, error: { msg: "", show: false } };
     default:

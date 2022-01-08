@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 
 import adsServices from "../../api/adsServices";
+import { useTags } from './../../hooks/useTags';
 
 const parseTags = (data, tags) => {
   const tagIncluded = data.get("tags"); // Obtenemos el tag que ha sido incluido en el FormData
@@ -18,17 +19,11 @@ const NewAdvertPage = ({ history }) => {
     photo: null,
   });
 
-  const [tags, setTags] = useState([]);
-
-  useEffect(() => {
-    const getTags = async () => {
-      const tags = await adsServices.getTags();
-      setTags(tags);
-    };
-    getTags();
-  }, []);
-
+  const tags = useTags()
+  
   const [tagSelected, setTagSelected] = useState("lifestyle");
+  
+  const handleTag = (e) => setTagSelected(e.target.value);
 
   const handleChange = (e) => {
     setFormValues({
@@ -62,7 +57,6 @@ const NewAdvertPage = ({ history }) => {
     }
   };
 
-  const handleTag = (e) => setTagSelected(e.target.value);
 
   const buttonDisabled =
     formValues.name === "" ||

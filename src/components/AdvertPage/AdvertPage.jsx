@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 
 import { Card, Button, ListGroup, Container, Spinner } from "react-bootstrap";
 
@@ -10,10 +10,12 @@ import { getUi } from "./../../store/selectors";
 const AdvertPage = ({ history }) => {
   const { isLoading } = useSelector(getUi);
   const { id } = useParams();
-  const ad = useAd(id);
+  const [ad, adErr] = useAd(id);
 
+  console.log(adErr)
   const deleteAd = async () => {
-    await adsServices.deleteAd(id, history);
+    await adsServices.deleteAd(id);
+    history.replace("/adverts");
   };
 
   const img = ad.photo
@@ -28,7 +30,10 @@ const AdvertPage = ({ history }) => {
       </Container>
     );
   }
-  return (
+
+  return adErr ? (
+    <Redirect to="/404" />
+  ) : (
     <>
       <Card className="text-center mx-auto p-0" style={{ width: "40%" }}>
         <Card.Img

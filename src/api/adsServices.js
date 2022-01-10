@@ -18,18 +18,17 @@ const adsServices = {
   getAd: async (id) => {
     return await requestServices.get(`api/v1/adverts/${id}`);
   },
-  deleteAd: async (id, history) => {
+  deleteAd: async (id) => {
     const result = await customAlerts.askDeleteAd();
     if (result.isConfirmed) {
       try {
         await requestServices.delete(`api/v1/adverts/${id}`);
         await customAlerts.successDeleteAd();
-        history.replace("/adverts")
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
-    return
+    return;
   },
   getTags: async () => {
     return await requestServices.get("api/v1/adverts/tags");

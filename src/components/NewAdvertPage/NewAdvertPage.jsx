@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Container, Col, Row, Form, Button, Spinner } from "react-bootstrap";
 
-import adsServices from "../../api/adsServices";
-import { useTags } from './../../hooks/useTags';
+import { useTags } from "./../../hooks/useTags";
+import { useDispatch, useSelector } from "react-redux";
+
+import { createAd } from "../../store/actions/adverts";
+import { getUi } from "./../../store/selectors";
 
 const parseTags = (data, tags) => {
   const tagIncluded = data.get("tags"); // Obtenemos el tag que ha sido incluido en el FormData
@@ -10,7 +13,11 @@ const parseTags = (data, tags) => {
   data.append("tags", tagsToAppend); // Añadimos los tags restantes al FormData
 };
 
-const NewAdvertPage = ({ history }) => {
+const NewAdvertPage = () => {
+  const dispatch = useDispatch();
+
+  const { isLoading } = useSelector(getUi);
+
   const [formValues, setFormValues] = useState({
     name: "",
     sale: "true",
@@ -19,10 +26,10 @@ const NewAdvertPage = ({ history }) => {
     photo: null,
   });
 
-  const tags = useTags()
-  
+  const tags = useTags();
+
   const [tagSelected, setTagSelected] = useState("lifestyle");
-  
+
   const handleTag = (e) => setTagSelected(e.target.value);
 
   const handleChange = (e) => {
@@ -39,7 +46,7 @@ const NewAdvertPage = ({ history }) => {
 
     parseTags(data, formValues.tags);
 
-    await adsServices.createAd(data, history);
+    dispatch(createAd(data));
   };
 
   const addTag = () => {
@@ -57,11 +64,11 @@ const NewAdvertPage = ({ history }) => {
     }
   };
 
-
   const buttonDisabled =
     formValues.name === "" ||
     formValues.price === "" ||
-    formValues.tags.length === 0;
+    formValues.tags.length === 0 ||
+    isLoading;
 
   return (
     <Container>
@@ -153,10 +160,23 @@ const NewAdvertPage = ({ history }) => {
         <Button
           variant="primary"
           type="submit"
-          className="d-block mx-auto my-3"
+          className="d-block mx-auto"
           disabled={buttonDisabled}
         >
-          Submit
+          {isLoading ? (
+            <>
+              Loading...
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            </>
+          ) : (
+            "Send"
+          )}
         </Button>
       </Form>
     </Container>

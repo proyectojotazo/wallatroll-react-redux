@@ -5,9 +5,10 @@ import ErrorMsg from "../common/ErrorMsg";
 
 import "./LoginPage.css";
 
-import { authLogin, uiResetError } from "../../store/actions";
+import { authLogin } from "../../store/actions/auth";
+import { uiResetError } from "../../store/actions/ui";
 import { getUi } from "../../store/selectors";
-import { useForm } from './../../hooks/useForm';
+import { useForm } from "./../../hooks/useForm";
 
 const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
   const [formValues, handleChange] = useForm({
@@ -87,6 +88,7 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
             >
               {isLoading ? (
                 <>
+                  Loading...
                   <Spinner
                     as="span"
                     animation="border"
@@ -94,7 +96,6 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
                     role="status"
                     aria-hidden="true"
                   />
-                  <span className="visually-hidden">Loading...</span>
                 </>
               ) : (
                 "Submit"

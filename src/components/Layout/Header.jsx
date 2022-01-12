@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import { Container, Row, Col, Image, Navbar } from "react-bootstrap";
 
 import { getIsLogged } from "../../store/selectors";
-import { authLogout, uiResetError } from "../../store/actions";
-
+import { authLogout } from "../../store/actions/auth";
+import { uiResetError } from './../../store/actions/ui';
+ 
 import icon from "../../assets/images/wallaicon-res.png";
 
 import "./Header.css";

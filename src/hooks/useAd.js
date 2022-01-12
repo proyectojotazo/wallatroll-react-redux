@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import adsServices from "./../api/adsServices";
 import { useDispatch } from "react-redux";
-import { loadingAdvert, advertLoaded } from "./../store/actions";
+import { loadingAdvert, advertLoaded } from "./../store/actions/adverts";
 
 export const useAd = (id) => {
   const [ad, setAd] = useState([]);

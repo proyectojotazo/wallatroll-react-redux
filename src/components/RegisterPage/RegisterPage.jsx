@@ -5,8 +5,9 @@ import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import ErrorMsg from "../common/ErrorMsg";
 
 import { getUi } from "../../store/selectors";
-import { register, uiResetError } from "../../store/actions";
-import { useForm } from './../../hooks/useForm';
+import { register } from "../../store/actions/register";
+import { uiResetError } from "../../store/actions/ui";
+import { useForm } from "./../../hooks/useForm";
 
 const RegisterPage = ({ onRegister, onResetError, isLoading, error }) => {
   const {
@@ -111,6 +112,7 @@ const RegisterPage = ({ onRegister, onResetError, isLoading, error }) => {
             >
               {isLoading ? (
                 <>
+                  Loading...
                   <Spinner
                     as="span"
                     animation="border"
@@ -118,7 +120,6 @@ const RegisterPage = ({ onRegister, onResetError, isLoading, error }) => {
                     role="status"
                     aria-hidden="true"
                   />
-                  <span className="visually-hidden">Loading...</span>
                 </>
               ) : (
                 "Register"

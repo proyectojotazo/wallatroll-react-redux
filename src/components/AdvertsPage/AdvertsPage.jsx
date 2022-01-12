@@ -33,7 +33,7 @@ import { Link } from "react-router-dom";
 import AdvertCard from "./AdvertCard";
 
 import { getUi, getAdverts } from "./../../store/selectors";
-import { getAds } from "./../../store/actions";
+import { getAds } from "./../../store/actions/adverts";
 
 const AdvertsPage = ({ history }) => {
   const { isLoading } = useSelector(getUi);

@@ -12,7 +12,6 @@ const AdvertPage = ({ history }) => {
   const { id } = useParams();
   const [ad, adErr] = useAd(id);
 
-  console.log(adErr)
   const deleteAd = async () => {
     await adsServices.deleteAd(id);
     history.replace("/adverts");
@@ -59,11 +58,13 @@ const AdvertPage = ({ history }) => {
                 <ListGroup.Item key={i}>{tag}</ListGroup.Item>
               ))}
           </ListGroup>
-          <Button variant="danger" onClick={deleteAd} style={{ width: "50%" }}>
+          <Button variant="danger" onClick={deleteAd} style={{ width: "40%" }}>
             Delete
           </Button>
         </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
+        <Card.Footer className="text-muted">
+          {ad.createdAt}
+        </Card.Footer>
       </Card>
     </>
   );

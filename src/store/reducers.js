@@ -10,7 +10,10 @@ import {
   LOADING_ADVERTS,
   ADVERTS_LOADED,
   LOADING_ADVERT,
-  ADVERT_LOADED,
+  ADVERT_LOADED_SUCCESS,
+  CREATE_AD_REQUEST,
+  CREATE_AD_SUCCESS,
+  CREATE_AD_FAILURE,
 } from "./types";
 
 const defaultState = {
@@ -36,26 +39,22 @@ export const auth = (authState = defaultState.auth, action) => {
 export const ui = (uiState = defaultState.ui, action) => {
   switch (action.type) {
     case AUTH_LOGIN_REQUEST:
+    case REGISTER_REQUEST:
+    case LOADING_ADVERTS:
+    case LOADING_ADVERT:
+    case CREATE_AD_REQUEST:
       return { isLoading: true, error: { msg: "", show: false } };
     case AUTH_LOGIN_SUCCESS:
-      return { isLoading: false, error: { msg: "", show: false } };
-    case AUTH_LOGIN_FAILURE:
-      return { isLoading: false, error: { msg: action.payload, show: true } };
-    case REGISTER_REQUEST:
-      return { isLoading: true, error: { msg: "", show: false } };
     case REGISTER_SUCCESS:
-      return { isLoading: false, error: { msg: "", show: false } };
-    case REGISTER_FAILURE:
-      return { isLoading: false, error: { msg: action.payload, show: true } };
-    case LOADING_ADVERTS:
-      return { isLoading: true, error: { msg: "", show: false } };
     case ADVERTS_LOADED:
+    case ADVERT_LOADED_SUCCESS:
+    case CREATE_AD_SUCCESS:
       return { isLoading: false, error: { msg: "", show: false } };
-      // Caso errores al cargar anuncios
-    case LOADING_ADVERT:
-      return { isLoading: true, error: { msg: "", show: false } };
-    case ADVERT_LOADED:
-      return { isLoading: false, error: { msg: "", show: false } };
+    // TODO: Caso errores al cargar anuncios
+    case AUTH_LOGIN_FAILURE:
+    case REGISTER_FAILURE:
+    case CREATE_AD_FAILURE:
+      return { isLoading: false, error: { msg: action.payload, show: true } };
     case UI_RESET_ERROR:
       return { ...uiState, error: { msg: "", show: false } };
     default:

@@ -8,17 +8,28 @@ import {
   REGISTER_FAILURE,
   AUTH_LOGOUT,
   LOADING_ADVERTS,
-  ADVERTS_LOADED,
+  ADVERTS_LOADED_SUCCESS,
+  ADVERTS_LOADED_FAILURE,
   LOADING_ADVERT,
   ADVERT_LOADED_SUCCESS,
+  ADVERT_LOADED_FAILURE,
   CREATE_AD_REQUEST,
   CREATE_AD_SUCCESS,
   CREATE_AD_FAILURE,
+  DELETE_AD_REQUEST,
+  DELETE_AD_SUCCESS,
+  DELETE_AD_FAILURE,
 } from "./types";
 
 const defaultState = {
   auth: true,
-  adverts: [],
+  adverts: {
+    advertLoaded: null,
+    needsUpdate: false,
+    isDeleting: false,
+    loaded: false,
+    data: [],
+  },
   ui: {
     isLoading: false,
     error: { msg: "", show: false },
@@ -43,17 +54,22 @@ export const ui = (uiState = defaultState.ui, action) => {
     case LOADING_ADVERTS:
     case LOADING_ADVERT:
     case CREATE_AD_REQUEST:
+    case DELETE_AD_REQUEST:
       return { isLoading: true, error: { msg: "", show: false } };
     case AUTH_LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-    case ADVERTS_LOADED:
+    case ADVERTS_LOADED_SUCCESS:
     case ADVERT_LOADED_SUCCESS:
     case CREATE_AD_SUCCESS:
+    case DELETE_AD_SUCCESS:
       return { isLoading: false, error: { msg: "", show: false } };
     // TODO: Caso errores al cargar anuncios
     case AUTH_LOGIN_FAILURE:
     case REGISTER_FAILURE:
+    case ADVERTS_LOADED_FAILURE:
+    case ADVERT_LOADED_FAILURE:
     case CREATE_AD_FAILURE:
+    case DELETE_AD_FAILURE:
       return { isLoading: false, error: { msg: action.payload, show: true } };
     case UI_RESET_ERROR:
       return { ...uiState, error: { msg: "", show: false } };
@@ -64,8 +80,32 @@ export const ui = (uiState = defaultState.ui, action) => {
 
 export const adverts = (advertsState = defaultState.adverts, action) => {
   switch (action.type) {
-    case ADVERTS_LOADED:
-      return action.payload;
+    case ADVERTS_LOADED_SUCCESS:
+      return {
+        advertLoaded: null,
+        isDeleting: false,
+        needsUpdate: false,
+        loaded: true,
+        data: action.payload,
+      };
+    case ADVERT_LOADED_SUCCESS:
+      return {
+        ...advertsState,
+        advertLoaded: action.payload,
+      };
+    case CREATE_AD_SUCCESS:
+      return {
+        ...advertsState,
+        needsUpdate: true,
+        data: [...advertsState.data, action.payload],
+      };
+    case DELETE_AD_REQUEST:
+      return {
+        ...advertsState,
+        isDeleting: true,
+      };
+    case DELETE_AD_SUCCESS:
+      return { ...advertsState, isDeleting: false, needsUpdate: true };
     default:
       return advertsState;
   }

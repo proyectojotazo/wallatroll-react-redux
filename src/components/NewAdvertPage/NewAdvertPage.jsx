@@ -1,17 +1,11 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Col, Row, Form, Button, Spinner } from "react-bootstrap";
 
 import { useTags } from "./../../hooks/useTags";
-import { useDispatch, useSelector } from "react-redux";
 
 import { createAd } from "../../store/actions/adverts";
 import { getUi } from "./../../store/selectors";
-
-const parseTags = (data, tags) => {
-  const tagIncluded = data.get("tags"); // Obtenemos el tag que ha sido incluido en el FormData
-  const tagsToAppend = tags.filter((tag) => tag !== tagIncluded); // Obtenemos de los tags del estado los tags que no sean el tag ya incluido
-  data.append("tags", tagsToAppend); // Añadimos los tags restantes al FormData
-};
 
 const NewAdvertPage = () => {
   const dispatch = useDispatch();
@@ -44,7 +38,7 @@ const NewAdvertPage = () => {
     e.preventDefault();
     const data = new FormData(e.target);
 
-    parseTags(data, formValues.tags);
+    data.set("tags", formValues.tags);
 
     dispatch(createAd(data));
   };
@@ -165,7 +159,6 @@ const NewAdvertPage = () => {
         >
           {isLoading ? (
             <>
-              Loading...
               <Spinner
                 as="span"
                 animation="border"

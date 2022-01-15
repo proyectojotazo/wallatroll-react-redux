@@ -1,38 +1,42 @@
-import { useSelector } from "react-redux";
-import { useParams, Redirect } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { useParams } from "react-router-dom";
 
 import { Card, Button, ListGroup, Container, Spinner } from "react-bootstrap";
 
-import adsServices from "../../api/adsServices";
-import { useAd } from "./../../hooks/useAd";
-import { getUi } from "./../../store/selectors";
+import { getAdvert, getUi, getIsDeleting } from "../../store/selectors";
+import { getAd, deleteAd } from "../../store/actions/adverts";
 
-const AdvertPage = ({ history }) => {
+const AdvertPage = () => {
+  const advert = useSelector(getAdvert);
+  const dispatch = useDispatch();
   const { isLoading } = useSelector(getUi);
+  const isDeleting = useSelector(getIsDeleting);
   const { id } = useParams();
-  const [ad, adErr] = useAd(id);
 
-  const deleteAd = async () => {
-    await adsServices.deleteAd(id);
-    history.replace("/adverts");
+  useEffect(() => {
+    dispatch(getAd(id));
+  }, [id, dispatch]);
+
+  const handleDelete = () => {
+    dispatch(deleteAd(id));
   };
 
-  const img = ad.photo
-    ? `${process.env.REACT_APP_API_BASE_URL}${ad.photo}`
+  const img = advert?.photo
+    ? `${process.env.REACT_APP_API_BASE_URL}${advert.photo}`
     : "https://via.placeholder.com/150x100?text=No Image";
 
   if (isLoading) {
     return (
       <Container className="mx-auto w-50 align-center text-center">
-        <h1>Loading advert...</h1>
+        <h1>{isDeleting ? "Deleting Advert..." : "Loading advert..."}</h1>
         <Spinner animation="border" variant="info" />;
       </Container>
     );
   }
 
-  return adErr ? (
-    <Redirect to="/404" />
-  ) : (
+  return (
     <>
       <Card className="text-center mx-auto p-0" style={{ width: "40%" }}>
         <Card.Img
@@ -40,7 +44,7 @@ const AdvertPage = ({ history }) => {
           src={img}
           style={{ maxHeight: "280px", objectFit: "cover" }}
         />
-        <Card.Header>{ad.name}</Card.Header>
+        <Card.Header>{advert?.name}</Card.Header>
         <Card.Body>
           <Card.Title>Description</Card.Title>
           <Card.Text>
@@ -49,22 +53,24 @@ const AdvertPage = ({ history }) => {
             ea commodi sint nemo voluptatem impedit est aspernatur assumenda
             amet. Omnis!
           </Card.Text>
-          <Card.Text>Price: {ad.price}€</Card.Text>
-          <Card.Text>{ad.sale ? "Sell" : "Buy"}</Card.Text>
+          <Card.Text>Price: {advert?.price}€</Card.Text>
+          <Card.Text>{advert?.sale ? "Sell" : "Buy"}</Card.Text>
           <Card.Header className="text-center">Tags</Card.Header>
           <ListGroup variant="flush">
-            {ad.tags &&
-              ad.tags.map((tag, i) => (
+            {advert?.tags &&
+              advert.tags.map((tag, i) => (
                 <ListGroup.Item key={i}>{tag}</ListGroup.Item>
               ))}
           </ListGroup>
-          <Button variant="danger" onClick={deleteAd} style={{ width: "40%" }}>
+          <Button
+            variant="danger"
+            onClick={handleDelete}
+            style={{ width: "40%" }}
+          >
             Delete
           </Button>
         </Card.Body>
-        <Card.Footer className="text-muted">
-          {ad.createdAt}
-        </Card.Footer>
+        <Card.Footer className="text-muted">{advert?.createdAt}</Card.Footer>
       </Card>
     </>
   );

@@ -5,7 +5,7 @@ import {
   AdvertPageContainer,
   NewAdvertPage,
   NotFoundPage,
-  PrivateRouteContainer,
+  ConnectedPrivateRoute,
 } from "..";
 
 import {
@@ -19,17 +19,17 @@ const AppRouter = ({ history }) => {
     <Router history={history}>
       <Layout>
         <Switch>
-          <PrivateRouteContainer
+          <ConnectedPrivateRoute
             exact
             path="/adverts"
             component={AdvertsPageContainer}
           />
-          <PrivateRouteContainer
+          <ConnectedPrivateRoute
             exact
             path="/adverts/new"
             component={NewAdvertPage}
           />
-          <PrivateRouteContainer
+          <ConnectedPrivateRoute
             exact
             path="/advert/:id"
             component={AdvertPageContainer}

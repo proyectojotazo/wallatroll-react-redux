@@ -85,7 +85,6 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
             >
               {isLoading ? (
                 <>
-                  Loading...
                   <Spinner
                     as="span"
                     animation="border"
@@ -119,6 +118,5 @@ LoginPage.propTypes = {
     show: PropTypes.bool.isRequired,
   }),
 };
-
 
 export default LoginPage;

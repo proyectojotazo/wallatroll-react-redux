@@ -1,4 +1,5 @@
 import { Alert } from "react-bootstrap";
+import PropTypes from 'prop-types'
 
 const ErrorMsg = ({ msg, onClick }) => {
   return (
@@ -7,5 +8,10 @@ const ErrorMsg = ({ msg, onClick }) => {
     </Alert>
   );
 };
+
+ErrorMsg.propTypes = {
+  msg: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
+}
 
 export default ErrorMsg;

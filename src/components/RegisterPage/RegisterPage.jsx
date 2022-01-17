@@ -1,12 +1,8 @@
-import { connect } from "react-redux";
-
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 import ErrorMsg from "../common/ErrorMsg";
 
-import { getUi } from "../../store/selectors";
-import { register } from "../../store/actions/register";
-import { uiResetError } from "../../store/actions/ui";
 import { useForm } from "./../../hooks/useForm";
 
 const RegisterPage = ({ onRegister, onResetError, isLoading, error }) => {
@@ -112,7 +108,6 @@ const RegisterPage = ({ onRegister, onResetError, isLoading, error }) => {
             >
               {isLoading ? (
                 <>
-                  Loading...
                   <Spinner
                     as="span"
                     animation="border"
@@ -132,20 +127,23 @@ const RegisterPage = ({ onRegister, onResetError, isLoading, error }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return getUi(state);
+RegisterPage.propTypes = {
+  onRegister: PropTypes.func.isRequired,
+  onResetError: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.shape({
+    msg: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        email: PropTypes.string,
+        name: PropTypes.string,
+        username: PropTypes.string,
+        password: PropTypes.string,
+        server: PropTypes.string,
+      }),
+    ]),
+    show: PropTypes.bool.isRequired,
+  }),
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onRegister: (credentials) => dispatch(register(credentials)),
-    onResetError: () => dispatch(uiResetError()),
-  };
-};
-
-const ConnectedRegisterPage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegisterPage);
-
-export default ConnectedRegisterPage;
+export default RegisterPage;

@@ -1,4 +1,5 @@
 import { Card, Button, ListGroup } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 const AdvertCard = ({ ad, history }) => {
   const img = ad.photo
@@ -39,6 +40,19 @@ const AdvertCard = ({ ad, history }) => {
       </Card.Body>
     </Card>
   );
+};
+
+AdvertCard.propTypes = {
+  ad: PropTypes.shape({
+    createdAt: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    photo: PropTypes.oneOfType([PropTypes.instanceOf(null), PropTypes.string]),
+    price: PropTypes.number.isRequired,
+    sale: PropTypes.bool.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
+  }),
+  history: PropTypes.object.isRequired,
 };
 
 export default AdvertCard;

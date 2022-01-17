@@ -1,5 +1,5 @@
 export const getUi = (state) => state.ui;
-
+export const getIsLoading = state => state.ui.isLoading
 export const getIsLogged = (state) => state.auth;
 
 export const getAdverts = (state) => state.adverts.data;

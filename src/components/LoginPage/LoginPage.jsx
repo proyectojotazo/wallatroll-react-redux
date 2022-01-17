@@ -1,13 +1,10 @@
 import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
-import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import ErrorMsg from "../common/ErrorMsg";
 
 import "./LoginPage.css";
 
-import { authLogin } from "../../store/actions/auth";
-import { uiResetError } from "../../store/actions/ui";
-import { getUi } from "../../store/selectors";
 import { useForm } from "./../../hooks/useForm";
 
 const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
@@ -108,20 +105,20 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return getUi(state);
+LoginPage.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+  onResetError: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.shape({
+    msg: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        server: PropTypes.string,
+      }),
+    ]),
+    show: PropTypes.bool.isRequired,
+  }),
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogin: (credentials) => dispatch(authLogin(credentials)),
-    onResetError: () => dispatch(uiResetError()),
-  };
-};
 
-const ConnectedLoginPage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginPage);
-
-export default ConnectedLoginPage;
+export default LoginPage;

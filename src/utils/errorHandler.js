@@ -27,7 +27,7 @@ const handleError = (error) => {
   }
 
   if (error.status === 500 && error.message === "Internal server error") {
-    handledError["message"] = "Username or Email is already in use";
+    handledError["message"] = { server: "Username or Email is already in use" };
   }
 
   // Si el servidor no está corriendo

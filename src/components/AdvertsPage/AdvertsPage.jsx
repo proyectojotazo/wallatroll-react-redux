@@ -26,23 +26,16 @@
      el navegador.
  */
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import AdvertCard from "./AdvertCard";
 
-import { getUi, getAdverts } from "./../../store/selectors";
-import { getAds } from "./../../store/actions/adverts";
-
-const AdvertsPage = ({ history }) => {
-  const { isLoading } = useSelector(getUi);
-  const ads = useSelector(getAdverts);
-  const dispatch = useDispatch();
-
+const AdvertsPage = ({ history, isLoading, ads, getAds }) => {
   useEffect(() => {
-    dispatch(getAds());
-  }, [dispatch]);
+    getAds();
+  }, [getAds]);
 
   if (isLoading) {
     return (
@@ -74,6 +67,25 @@ const AdvertsPage = ({ history }) => {
       </Row>
     </Container>
   );
+};
+
+AdvertsPage.propTypes = {
+  history: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  ads: PropTypes.arrayOf(
+    PropTypes.shape({
+      createdAt: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      photo: PropTypes.oneOfType([
+        PropTypes.instanceOf(null),
+        PropTypes.string,
+      ]),
+      price: PropTypes.number.isRequired,
+      sale: PropTypes.bool.isRequired,
+      tags: PropTypes.arrayOf(PropTypes.string),
+    })
+  ).isRequired,
 };
 
 export default AdvertsPage;

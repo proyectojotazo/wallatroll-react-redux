@@ -18,7 +18,6 @@ export const registerSuccess = () => {
 export const registerFailure = (error) => {
   return {
     type: REGISTER_FAILURE,
-    error: true,
     payload: error.message,
   };
 };

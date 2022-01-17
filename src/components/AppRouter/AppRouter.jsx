@@ -1,39 +1,41 @@
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
-import ConnectedPrivateRoute from "./PrivateRoute";
-
 import {
   Layout,
-  ConnectedLoginPage,
-  RegisterPage,
-  AdvertPage,
-  AdvertsPage,
+  AdvertPageContainer,
   NewAdvertPage,
   NotFoundPage,
+  PrivateRouteContainer,
 } from "..";
+
+import {
+  LoginPageContainer,
+  RegisterPageContainer,
+  AdvertsPageContainer,
+} from "../../containers";
 
 const AppRouter = ({ history }) => {
   return (
     <Router history={history}>
       <Layout>
         <Switch>
-          <ConnectedPrivateRoute
+          <PrivateRouteContainer
             exact
             path="/adverts"
-            component={AdvertsPage}
+            component={AdvertsPageContainer}
           />
-          <ConnectedPrivateRoute
+          <PrivateRouteContainer
             exact
             path="/adverts/new"
             component={NewAdvertPage}
           />
-          <ConnectedPrivateRoute
+          <PrivateRouteContainer
             exact
             path="/advert/:id"
-            component={AdvertPage}
+            component={AdvertPageContainer}
           />
-          <Route exact path="/login" component={ConnectedLoginPage} />
-          <Route exact path="/register" component={RegisterPage} />
+          <Route exact path="/login" component={LoginPageContainer} />
+          <Route exact path="/register" component={RegisterPageContainer} />
           <Route exact path="/">
             <Redirect to="/adverts" />
           </Route>

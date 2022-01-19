@@ -47,7 +47,7 @@ AdvertCard.propTypes = {
     createdAt: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    photo: PropTypes.oneOfType([PropTypes.instanceOf(null), PropTypes.string]),
+    photo: PropTypes.string,
     price: PropTypes.number.isRequired,
     sale: PropTypes.bool.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string),

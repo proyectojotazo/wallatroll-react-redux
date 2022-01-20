@@ -102,6 +102,7 @@ export const adverts = (advertsState = defaultState.adverts, action) => {
     case DELETE_AD_REQUEST:
       return {
         ...advertsState,
+        needsUpdate: true,
         isDeleting: true,
       };
     case DELETE_AD_SUCCESS:

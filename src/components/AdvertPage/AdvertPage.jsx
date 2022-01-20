@@ -9,14 +9,12 @@ import { Card, Button, ListGroup, Container, Spinner } from "react-bootstrap";
 import { getAdvert, getIsDeleting, getIsLoading } from "../../store/selectors";
 import { getAd, deleteAd } from "../../store/actions/adverts";
 
-const AdvertPage = ({ advert, isLoading, isDeleting, getAd, deleteAd }) => {
+export const AdvertPage = ({ advert, isLoading, isDeleting, getAd, deleteAd }) => {
   const { id } = useParams();
 
   useEffect(() => {
     getAd(id);
   }, [getAd, id]);
-
-  const handleDelete = () => deleteAd(id);
 
   const img = advert?.photo
     ? `${process.env.REACT_APP_API_BASE_URL}${advert.photo}`
@@ -59,7 +57,7 @@ const AdvertPage = ({ advert, isLoading, isDeleting, getAd, deleteAd }) => {
           </ListGroup>
           <Button
             variant="danger"
-            onClick={handleDelete}
+            onClick={() => deleteAd(id)}
             style={{ width: "40%" }}
           >
             Delete

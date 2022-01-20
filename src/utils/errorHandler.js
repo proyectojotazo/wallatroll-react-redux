@@ -14,19 +14,19 @@ const handleRegisterErrors = (error) => {
 };
 
 const handleError = (error) => {
-  let handledError = {};
+  let handledError = { message: "Unhandled Error" };
 
   // Si se introduce un usuario incorrecto
-  if (error.status === 401) {
+  if (error?.status === 401) {
     handledError["message"] = "Wrong email or password";
   }
 
   // Valores no validos en el formulario de registro
-  if (error.status === 400) {
+  if (error?.status === 400) {
     handledError["message"] = handleRegisterErrors(error);
   }
 
-  if (error.status === 500 && error.message === "Internal server error") {
+  if (error?.status === 500 && error.message === "Internal server error") {
     handledError["message"] = { server: "Username or Email is already in use" };
   }
 

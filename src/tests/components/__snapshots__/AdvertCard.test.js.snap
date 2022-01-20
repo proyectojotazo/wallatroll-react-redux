@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AdvertCard /> should match snapshot 1`] = `
+<div
+  className="my-2 card"
+>
+  <img
+    className="card-img-top"
+    src="http://localhost:3001/photo.jpg"
+    style={
+      Object {
+        "height": "230px",
+        "objectFit": "cover",
+      }
+    }
+  />
+  <div
+    className="card-header"
+  >
+    <div
+      className="text-center card-title h5"
+    >
+      Piano
+    </div>
+  </div>
+  <div
+    className="card-body"
+  >
+    <p
+      className="card-text"
+    >
+      Price: 
+      120
+      €
+    </p>
+    <p
+      className="card-text"
+    >
+      Sell
+    </p>
+    <div
+      className="text-center card-header"
+    >
+      Tags
+    </div>
+    <div
+      className="list-group list-group-flush"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="list-group-item"
+        data-rr-ui-event-key={null}
+        onClick={[Function]}
+      >
+        tag
+      </div>
+    </div>
+    <button
+      className="w-100 mt-3 btn btn-primary"
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      Details
+    </button>
+  </div>
+</div>
+`;

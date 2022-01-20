@@ -1,8 +1,9 @@
-import { useEffect } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
-import RangePrice from "./RangePrice";
+import { useEffect } from "react";
 
 import { useTags } from "./../../hooks/useTags";
+
+import MyRange from "./MyRange";
 
 const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
   const tagsFetched = useTags();
@@ -10,10 +11,6 @@ const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
   const { name, sale, price, tags } = filters;
 
   const maxPrice = Math.max(...prices);
-
-  useEffect(() => {
-    setFilters((prevFilters) => ({ ...prevFilters, price: [0, maxPrice] }));
-  }, [maxPrice, setFilters]);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -29,15 +26,18 @@ const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
   };
 
-  const handlePrice = (price) => {
-    setFilters((prevFilters) => ({ ...prevFilters, price }));
+  const handlePrice = (value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, price: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
     handleAdsFiltered();
   };
+
+  useEffect(() => {
+    setFilters((prevFilters) => ({ ...prevFilters, price: [0, maxPrice] }));
+  }, [maxPrice, setFilters]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -85,11 +85,7 @@ const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
           />
         </Col>
         <Col md={4} className="d-flex flex-column align-items-center">
-          <RangePrice
-            price={price}
-            maxPrice={maxPrice}
-            handlePrice={handlePrice}
-          />
+          <MyRange max={maxPrice} value={price} onChange={handlePrice} />
         </Col>
         <Col md={3} className="d-flex justify-content-evenly">
           {tagsFetched.map((tag, i) => (

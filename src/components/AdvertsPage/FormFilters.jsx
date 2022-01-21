@@ -10,7 +10,8 @@ const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
 
   const { name, sale, price, tags } = filters;
 
-  const maxPrice = Math.max(...prices);
+  // Redondeamos para que no haya problemas con STEP de MyRange
+  const maxPrice = Math.round(Math.max(...prices));
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;

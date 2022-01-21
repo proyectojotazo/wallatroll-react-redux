@@ -20,8 +20,7 @@ const history = createBrowserHistory();
 const store = configureStore({ auth: !!accessToken }, { history });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App store={store} history={history} />
-  </React.StrictMode>,
+  // Quitamos StrictMode para que quitar error en rc-slider
+  <App store={store} history={history} />,
   document.getElementById("root")
 );

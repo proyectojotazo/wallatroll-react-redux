@@ -10,7 +10,16 @@ export const useTags = () => {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    getTags().then(setTags);
+    // Solo se llama a getTags si el componente está montado
+    let mounted = true;
+
+    getTags().then((tags) => {
+      if (mounted) {
+        setTags(tags);
+      }
+    });
+
+    return () => (mounted = false);
   }, []);
 
   return tags;

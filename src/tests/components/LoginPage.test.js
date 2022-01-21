@@ -20,6 +20,8 @@ describe("<LoginPage />", () => {
     remember,
   };
 
+  window.scrollTo = jest.fn(); // Para que sweetAlert no lance error
+
   test("should call onLogin", async () => {
     const onLogin = jest.fn().mockResolvedValue();
     

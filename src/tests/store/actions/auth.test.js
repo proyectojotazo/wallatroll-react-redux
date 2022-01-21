@@ -19,6 +19,8 @@ describe("authLogin", () => {
     userServices: {},
   };
 
+  window.scrollTo = jest.fn(); // Para que sweetAlert no lance error
+
   describe("when login api resolves", () => {
     api.userServices = { login: jest.fn().mockResolvedValue(credentials) };
     const defaultPathname = { pathname: "/" };

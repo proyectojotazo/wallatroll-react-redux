@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { AppRouter } from "./components";
+import AppRouter from "./AppRouter";
 
 const App = ({ store, history }) => {
   return (

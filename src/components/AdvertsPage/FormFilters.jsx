@@ -1,5 +1,6 @@
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { useEffect } from "react";
+import PropTypes from 'prop-types'
 
 import { useTags } from "./../../hooks/useTags";
 
@@ -107,5 +108,17 @@ const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
     </Form>
   );
 };
+
+FormFilters.propTypes = {
+  filters: PropTypes.shape({
+    name: PropTypes.string,
+    sale: PropTypes.string,
+    price: PropTypes.arrayOf(PropTypes.number),
+    tags: PropTypes.arrayOf(PropTypes.string)
+  }).isRequired, 
+  setFilters: PropTypes.func.isRequired, 
+  handleAdsFiltered: PropTypes.func.isRequired, 
+  prices: PropTypes.arrayOf(PropTypes.number)
+}
 
 export default FormFilters;

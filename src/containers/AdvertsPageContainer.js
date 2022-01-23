@@ -1,22 +1,25 @@
-import { connect } from 'react-redux';
-import { getIsLoading, getAdverts } from './../store/selectors';
-import { getAds } from './../store/actions/adverts';
+import { connect } from "react-redux";
+import { getIsLoading, getAdverts } from "./../store/selectors";
+import { getAds } from "./../store/actions/adverts";
 
-import AdvertsPage from './../components/AdvertsPage/AdvertsPage';
+import { AdvertsPage } from "../components";
 
 const mapStateToProps = (state) => {
   return {
     isLoading: getIsLoading(state),
-    ads: getAdverts(state)
-  }
-}
+    ads: getAdverts(state),
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getAds: () => dispatch(getAds())
-  }
-}
+    getAds: () => dispatch(getAds()),
+  };
+};
 
-const AdvertsPageContainer = connect(mapStateToProps, mapDispatchToProps)(AdvertsPage)
+const AdvertsPageContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AdvertsPage);
 
-export default AdvertsPageContainer
+export default AdvertsPageContainer;

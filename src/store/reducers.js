@@ -21,7 +21,7 @@ import {
   DELETE_AD_FAILURE,
 } from "./types";
 
-const defaultState = {
+export const defaultState = {
   auth: true,
   adverts: {
     advertLoaded: null,

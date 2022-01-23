@@ -1,14 +1,8 @@
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-
 import { Container, Row, Col, Image, Navbar } from "react-bootstrap";
+import PropTypes from "prop-types";
 
-import { getIsLogged } from "../../store/selectors";
-import { authLogout } from "../../store/actions/auth";
-import { uiResetError } from './../../store/actions/ui';
- 
 import icon from "../../assets/images/wallaicon-res.png";
-
 import "./Header.css";
 
 const Header = ({ isLogged, onLogout, resetErrors }) => {
@@ -60,22 +54,10 @@ const Header = ({ isLogged, onLogout, resetErrors }) => {
   );
 };
 
-const mapStateProps = (state) => {
-  return {
-    isLogged: getIsLogged(state),
-  };
+Header.propTypes = {
+  isLogged: PropTypes.bool.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  resetErrors: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogout: (e) => {
-      e.preventDefault();
-      dispatch(authLogout());
-    },
-    resetErrors: () => dispatch(uiResetError()),
-  };
-};
-
-const ConnectedHeader = connect(mapStateProps, mapDispatchToProps)(Header);
-
-export default ConnectedHeader;
+export default Header;

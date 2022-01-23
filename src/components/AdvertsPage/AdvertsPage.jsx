@@ -118,7 +118,7 @@ AdvertsPage.propTypes = {
       photo: PropTypes.string,
       price: PropTypes.number.isRequired,
       sale: PropTypes.bool.isRequired,
-      tags: PropTypes.arrayOf(PropTypes.string),
+      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     })
   ).isRequired,
 };

@@ -1,13 +1,9 @@
 import { useEffect } from "react";
-import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 
 import { useParams } from "react-router-dom";
 
 import { Card, Button, ListGroup, Container, Spinner } from "react-bootstrap";
-
-import { getAdvert, getIsDeleting, getIsLoading } from "../../store/selectors";
-import { getAd, deleteAd } from "../../store/actions/adverts";
 
 export const AdvertPage = ({ advert, isLoading, isDeleting, getAd, deleteAd }) => {
   const { id } = useParams();
@@ -85,24 +81,4 @@ AdvertPage.propTypes = {
   deleteAd: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    advert: getAdvert(state),
-    isLoading: getIsLoading(state),
-    isDeleting: getIsDeleting(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getAd: (id) => dispatch(getAd(id)),
-    deleteAd: (id) => dispatch(deleteAd(id)),
-  };
-};
-
-const AdvertPageContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AdvertPage);
-
-export default AdvertPageContainer;
+export default AdvertPage;

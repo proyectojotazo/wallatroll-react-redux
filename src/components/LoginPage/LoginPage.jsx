@@ -8,31 +8,26 @@ import "./LoginPage.css";
 import { useForm } from "./../../hooks/useForm";
 
 const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
-  const [formValues, handleChange] = useForm({
-    email: "",
-    password: "",
-    checkbox: false,
-  });
+  const [formValues, handleChange, handleSubmit] = useForm(
+    {
+      email: "",
+      password: "",
+      checkbox: false,
+    },
+    onLogin
+  );
 
   const { email, password, checkbox: remember } = formValues;
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const userToLog = {
-      email,
-      password,
-      remember,
-    };
-
-    await onLogin(userToLog);
-  };
 
   return (
     <Container>
       <Row>
         <Col md={{ span: 4, offset: 4 }}>
-          <Form className="login-page-form" onSubmit={handleSubmit} noValidate>
+          <Form
+            className="login-page-form"
+            onSubmit={handleSubmit(formValues)}
+            noValidate
+          >
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control

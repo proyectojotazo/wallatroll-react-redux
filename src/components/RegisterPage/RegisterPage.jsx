@@ -14,33 +14,27 @@ const RegisterPage = ({ onRegister, onResetError, isLoading, error }) => {
     server: serverErr,
   } = error?.msg || [];
 
-  const [formValues, handleChange] = useForm({
-    email: "",
-    password: "",
-    username: "",
-    name: "",
-  });
+  const [formValues, handleChange, handleSubmit] = useForm(
+    {
+      email: "",
+      password: "",
+      username: "",
+      name: "",
+    },
+    onRegister
+  );
 
   const { email, password, username, name } = formValues;
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const userToRegister = {
-      email,
-      password,
-      username,
-      name,
-    };
-
-    await onRegister(userToRegister);
-  };
 
   return (
     <Container>
       <Row>
         <Col md={{ span: 4, offset: 4 }}>
-          <Form className="login-page-form" onSubmit={handleSubmit} noValidate>
+          <Form
+            className="login-page-form"
+            onSubmit={handleSubmit(formValues)}
+            noValidate
+          >
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>Name</Form.Label>
               <Form.Control

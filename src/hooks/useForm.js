@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useForm = (initialValues = {}) => {
+export const useForm = (initialValues = {}, submitFunc) => {
   const [formValues, setFormValues] = useState(initialValues);
 
   const handleChange = (e) => {
@@ -11,5 +11,12 @@ export const useForm = (initialValues = {}) => {
     });
   };
 
-  return [formValues, handleChange];
+  // Prueba de closure
+  const handleSubmit = values => async (e) => {
+    e.preventDefault()
+
+    await submitFunc(values)
+  }
+
+  return [formValues, handleChange, handleSubmit];
 };

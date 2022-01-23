@@ -17,7 +17,7 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
     onLogin
   );
 
-  const { email, password, checkbox: remember } = formValues;
+  const { email, password, checkbox } = formValues;
 
   return (
     <Container>
@@ -61,7 +61,7 @@ const LoginPage = ({ onLogin, onResetError, isLoading, error }) => {
                 type="checkbox"
                 name="checkbox"
                 label="Remember me"
-                checked={remember}
+                checked={checkbox}
                 onChange={handleChange}
                 disabled={isLoading}
               />

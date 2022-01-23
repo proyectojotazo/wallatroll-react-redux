@@ -1,28 +1,34 @@
-import requestServices from "./requestServices";
-
 import { setAuthorizationHeader, removeAuthorizationHeader } from "./client";
+import requestServices from "./requestServices";
 
 import storage from "../utils/storage";
 
+const DEFAULT_URI = "/api/auth";
+
 const userServices = {
   login: async (data) => {
+    const { checkbox: remember } = data;
 
-    const { remember } = data
+    const { accessToken } = await requestServices.post(
+      `${DEFAULT_URI}/login`,
+      data
+    );
 
-    const { accessToken } = await requestServices.post('/api/auth/login', data)
+    setAuthorizationHeader(accessToken);
 
-    setAuthorizationHeader(accessToken)
-
-    if (remember){
-      storage.set('token', accessToken)
+    if (remember) {
+      storage.set("token", accessToken);
     }
   },
-  logout: async () => {
-    await Promise.resolve()
-    removeAuthorizationHeader()
-    storage.remove('token')
-  },
-  register: async (data) => await requestServices.post('/api/auth/signup', data)
-}
 
-export default userServices
+  logout: async () => {
+    await Promise.resolve();
+    removeAuthorizationHeader();
+    storage.remove("token");
+  },
+
+  register: async (data) =>
+    await requestServices.post(`${DEFAULT_URI}/signup`, data),
+};
+
+export default userServices;

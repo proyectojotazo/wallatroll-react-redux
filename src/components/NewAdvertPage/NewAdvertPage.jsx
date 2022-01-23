@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Col, Row, Form, Button, Spinner } from "react-bootstrap";
 
-import { useTags } from "./../../hooks/useTags";
-
 import { createAd } from "../../store/actions/adverts";
 import { getUi } from "./../../store/selectors";
+
+import TagsHandler from "./TagsHandler";
 
 const NewAdvertPage = () => {
   const dispatch = useDispatch();
@@ -20,11 +20,7 @@ const NewAdvertPage = () => {
     photo: null,
   });
 
-  const tags = useTags();
-
-  const [tagSelected, setTagSelected] = useState("lifestyle");
-
-  const handleTag = (e) => setTagSelected(e.target.value);
+  const { name, sale, tags, price } = formValues
 
   const handleChange = (e) => {
     setFormValues({
@@ -38,24 +34,9 @@ const NewAdvertPage = () => {
     e.preventDefault();
     const data = new FormData(e.target);
 
-    data.set("tags", formValues.tags);
+    data.set("tags", tags);
 
     dispatch(createAd(data));
-  };
-
-  const addTag = () => {
-    if (!formValues.tags.includes(tagSelected)) {
-      setFormValues({ ...formValues, tags: [...formValues.tags, tagSelected] });
-    }
-  };
-
-  const removeTag = () => {
-    if (formValues.tags.includes(tagSelected)) {
-      setFormValues({
-        ...formValues,
-        tags: formValues.tags.filter((tag) => tag !== tagSelected),
-      });
-    }
   };
 
   const buttonDisabled =
@@ -76,7 +57,7 @@ const NewAdvertPage = () => {
                 type="text"
                 name="name"
                 placeholder="Enter Ad Name"
-                value={formValues.name}
+                value={name}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -86,14 +67,14 @@ const NewAdvertPage = () => {
               label="sell"
               value="true"
               onChange={handleChange}
-              checked={formValues.sale === "true"}
+              checked={sale === "true"}
             />
             <Form.Check
               type="radio"
               name="sale"
               label="buy"
               value="false"
-              checked={formValues.sale === "false"}
+              checked={sale === "false"}
               onChange={handleChange}
             />
 
@@ -103,7 +84,7 @@ const NewAdvertPage = () => {
                 type="number"
                 name="price"
                 placeholder="Enter Ad price"
-                value={formValues.price}
+                value={price}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -113,7 +94,36 @@ const NewAdvertPage = () => {
             </Form.Group>
           </Col>
           {/* Right Side */}
-          <Col md={4}>
+          <TagsHandler formTags={tags} setFormValues={setFormValues} />
+        </Row>
+        <Button
+          variant="primary"
+          type="submit"
+          className="d-block mx-auto"
+          disabled={buttonDisabled}
+        >
+          {isLoading ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            </>
+          ) : (
+            "Send"
+          )}
+        </Button>
+      </Form>
+    </Container>
+  );
+};
+
+export default NewAdvertPage;
+
+/* <Col md={4}>
             <label htmlFor="formBasicTags" style={{ marginBottom: ".47rem" }}>
               Tags
             </label>
@@ -149,31 +159,4 @@ const NewAdvertPage = () => {
             ) : (
               <p className="text-center">No Tags Selected</p>
             )}
-          </Col>
-        </Row>
-        <Button
-          variant="primary"
-          type="submit"
-          className="d-block mx-auto"
-          disabled={buttonDisabled}
-        >
-          {isLoading ? (
-            <>
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-            </>
-          ) : (
-            "Send"
-          )}
-        </Button>
-      </Form>
-    </Container>
-  );
-};
-
-export default NewAdvertPage;
+          </Col> */

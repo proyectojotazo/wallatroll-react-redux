@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import adsServices from "./../api/adsServices";
 
 const getTags = async () => {

@@ -1,28 +1,38 @@
-export const filteredAdverts = (adverts, filters) => {
-  const nameReg = new RegExp(`^${filters.name}`, "i");
+const filteredByName =
+  (filter) =>
+  ({ name }) => {
+    // Propiedad del anuncio `ad.name`
+    return new RegExp(`^${filter}`, "i").test(name);
+  };
 
-  let filtered;
+const filteredByPrice =
+  (filter) =>
+  ({ price }) => {
+    // Propiedad del anuncio `ad.price`
+    return price >= filter[0] && price <= filter[1];
+  };
 
-  if (filters.sale === "all") {
-    filtered = adverts.filter(
-      (ad) =>
-        nameReg.test(ad.name) &&
-        ad.price >= filters.price[0] &&
-        ad.price <= filters.price[1] &&
-        filters.tags.every((tag) => ad.tags.includes(tag))
-    );
+const filteredByTags =
+  (filter) =>
+  ({ tags }) => {
+    // Propiedad del anuncio `ad.tags`
+    return filter.every((tag) => tags.includes(tag));
+  };
 
-    return filtered
-  }
+const filterBySale =
+  (filter) =>
+  ({ sale }) => {
+    return filter === "all" ? true : filter === sale.toString();
+  };
 
-  filtered = adverts.filter(
-    (ad) =>
-      nameReg.test(ad.name) &&
-      ad.sale.toString() === filters.sale &&
-      ad.price >= filters.price[0] &&
-      ad.price <= filters.price[1] &&
-      filters.tags.every((tag) => ad.tags.includes(tag))
+export const filteredAdverts = (adverts, { name, price, tags, sale }) => {
+  return (
+    adverts
+      .filter(filteredByName(name))
+      // .filter((ad) => filteredByName(name)(ad))
+      .filter(filteredByPrice(price))
+      .filter(filteredByTags(tags))
+      .filter(filterBySale(sale))
+    // .filter((ad) => ad.sale.toString() === sale)
   );
-
-  return filtered
 };

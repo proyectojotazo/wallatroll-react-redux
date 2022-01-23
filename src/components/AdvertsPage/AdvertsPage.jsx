@@ -1,11 +1,3 @@
-/**
-   - EXTRA: Estaría bien que la aplicación “recordase” las 
-     preferencias de filtrado del usuario, de modo que cada vez que 
-     se entre en esta ruta estuviesen ya marcados los últimos filtros 
-     aplicados y con ellos se realizase la petición al API. Estas 
-     preferencias deberían permanecer guardadas aunque cerremos 
-     el navegador.
- */
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col, Spinner } from "react-bootstrap";

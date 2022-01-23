@@ -1,12 +1,12 @@
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import { useEffect } from "react";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 import { useTags } from "./../../hooks/useTags";
 
 import MyRange from "./MyRange";
 
-const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
+const FormFilters = ({ filters, setFilters, prices }) => {
   const tagsFetched = useTags();
 
   const { name, sale, price, tags } = filters;
@@ -32,23 +32,18 @@ const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
     setFilters((prevFilters) => ({ ...prevFilters, price: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleAdsFiltered();
-  };
-
   useEffect(() => {
     setFilters((prevFilters) => ({ ...prevFilters, price: [0, maxPrice] }));
   }, [maxPrice, setFilters]);
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <Form.Group
         as={Row}
         className="mb-1 p-1 align-items-center"
         controlId="formHorizontalName"
       >
-        <Col md={2}>
+        <Col md={3}>
           <Form.Control
             type="text"
             name="name"
@@ -101,9 +96,6 @@ const FormFilters = ({ filters, setFilters, handleAdsFiltered, prices }) => {
             />
           ))}
         </Col>
-        <Col sm={1}>
-          <Button type="submit">Search</Button>
-        </Col>
       </Form.Group>
     </Form>
   );
@@ -114,11 +106,10 @@ FormFilters.propTypes = {
     name: PropTypes.string,
     sale: PropTypes.string,
     price: PropTypes.arrayOf(PropTypes.number),
-    tags: PropTypes.arrayOf(PropTypes.string)
-  }).isRequired, 
-  setFilters: PropTypes.func.isRequired, 
-  handleAdsFiltered: PropTypes.func.isRequired, 
-  prices: PropTypes.arrayOf(PropTypes.number)
-}
+    tags: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+  setFilters: PropTypes.func.isRequired,
+  prices: PropTypes.arrayOf(PropTypes.number),
+};
 
 export default FormFilters;

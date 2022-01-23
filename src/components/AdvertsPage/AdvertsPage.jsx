@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 
 import AdvertCard from "./AdvertCard";
 import FormFilters from "./FormFilters";
+import { filteredAdverts } from "./filteredAdverts";
 
 const AdvertsPage = ({ history, isLoading, ads, getAds }) => {
   const [filters, setFilters] = useState({
@@ -22,48 +23,13 @@ const AdvertsPage = ({ history, isLoading, ads, getAds }) => {
     tags: [],
   });
 
-  const { name, sale, price, tags } = filters;
-
-  const [adsFiltered, setAdsFiltered] = useState([]);
-
-  const handleAdsFiltered = () => {
-    const nameReg = new RegExp(`^${name}`, "i");
-    let filtered;
-
-    if (sale === "all") {
-      filtered = ads.filter(
-        (ad) =>
-          nameReg.test(ad.name) &&
-          ad.price >= price[0] &&
-          ad.price <= price[1] &&
-          tags.every((tag) => ad.tags.includes(tag))
-      );
-      setAdsFiltered(filtered);
-
-      return;
-    }
-
-    filtered = ads.filter(
-      (ad) =>
-        nameReg.test(ad.name) &&
-        ad.sale.toString() === sale &&
-        ad.price >= price[0] &&
-        ad.price <= price[1] &&
-        tags.every((tag) => ad.tags.includes(tag))
-    );
-
-    setAdsFiltered(filtered);
-  };
+  const adsFiltered = filteredAdverts(ads, filters);
 
   const adsToShow = adsFiltered.length !== 0 ? adsFiltered : ads;
 
   useEffect(() => {
     getAds();
   }, [getAds]);
-
-  useEffect(() => {
-    setAdsFiltered(ads);
-  }, [ads]);
 
   if (isLoading) {
     return (
@@ -89,7 +55,6 @@ const AdvertsPage = ({ history, isLoading, ads, getAds }) => {
       <FormFilters
         filters={filters}
         setFilters={setFilters}
-        handleAdsFiltered={handleAdsFiltered}
         prices={ads.map((ad) => ad.price)}
       />
       {adsFiltered.length === 0 ? (
@@ -121,6 +86,7 @@ AdvertsPage.propTypes = {
       tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     })
   ).isRequired,
+  getAds: PropTypes.func.isRequired,
 };
 
 export default AdvertsPage;

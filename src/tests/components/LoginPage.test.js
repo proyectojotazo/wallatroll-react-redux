@@ -13,11 +13,11 @@ describe("<LoginPage />", () => {
   /* Params */
   const email = "user";
   const password = "1234";
-  const remember = true;
+  const checkbox = true;
   const userToLog = {
     email,
     password,
-    remember,
+    checkbox,
   };
 
   window.scrollTo = jest.fn(); // Para que sweetAlert no lance error

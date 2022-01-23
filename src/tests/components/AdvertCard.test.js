@@ -13,7 +13,7 @@ describe("<AdvertCard />", () => {
     price: 120,
     tags: ["tag"],
   };
-  const history = { push: jest.fn("param") };
+  const history = { push: jest.fn() };
 
   test("should match snapshot", () => {
     const tree = renderer
